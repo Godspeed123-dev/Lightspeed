@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lightspeed - Cultural Coin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Agu+Display&family=Audiowide&family=Delius+Swash+Caps&family=Michroma&family=Orbitron:wght@400..900&family=Pacifico&family=Raleway:ital,wght@0,100..900;1,100..900&family=Satisfy&family=Share+Tech&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Share Tech", "Arial", sans-serif;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
+          url("space.jpg") no-repeat center center / cover;
+        background-attachment: fixed;
+        color: #fff;
+        overflow-x: hidden;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Top Navigation Bar */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 7vh; /* Scalable height */
+        min-height: 50px;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(15px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2.6vw; /* Scalable padding */
+        border-bottom: 1px solid rgba(192, 192, 192, 0.1);
+      }
+
+      .nav-left {
+        display: flex;
+        gap: 1.5vw; /* Scalable gap */
+      }
+
+      .nav-center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-family: "Orbitron", sans-serif;
+        color: #e0e0e0;
+        font-size: clamp(0.8rem, 1.1vw, 1.2rem);
+        text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+        pointer-events: none;
+        white-space: nowrap;
+      }
+
+      .nav-btn {
+        background: none;
+        border: none;
+        color: #c0c0c0;
+        font-size: clamp(0.8rem, 1vw, 1rem);
+        cursor: pointer;
+        padding: 1vh 1.5vw; /* Scalable padding */
+        border-radius: 0.5vw; /* Scalable radius */
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.1vw;
+      }
+
+      .nav-btn:hover {
+        color: #fff;
+        background: rgba(192, 192, 192, 0.1);
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+          0 0 25px rgba(192, 192, 192, 0.6);
+      }
+
+      .nav-right {
+        display: flex;
+        gap: 1vw;
+      }
+
+      .nav-right a,
+      .nav-left a {
+        text-decoration: none;
+      }
+
+      .buy-btn {
+        background: linear-gradient(45deg, #c0c0c0, #fff);
+        color: #000;
+        font-weight: bold;
+        padding: 1.2vh 2.5vw;
+        border-radius: 2.5vw;
+        box-shadow: 0 0 2vw rgba(192, 192, 192, 0.3);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 2vw rgba(192, 192, 192, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 3vw rgba(192, 192, 192, 0.6);
+        }
+      }
+
+      /* Hero Section */
+      .hero-section {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: radial-gradient(
+            ellipse at 50% 0%,
+            rgba(300, 300, 300, 0.25) 0%,
+            rgba(0, 0, 0, 0) 70%
+          ),
+          #000;
+        overflow: hidden;
+      }
+
+      .hero-section::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40%;
+        background: linear-gradient(to top, #000 20%, transparent);
+        z-index: 1;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .lightspeed-text {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(4rem, 10vw, 12rem);
+        font-style: italic;
+        font-weight: bold;
+        color: #ffffff;
+        letter-spacing: 0.5vw;
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        text-shadow: 0 0 2.5vw rgba(100, 100, 100, 0.5),
+          0 0 4vw rgba(255, 255, 255, 0.606);
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      .silver-surfer-image {
+        width: 25vw;
+        min-width: 280px;
+        aspect-ratio: 450 / 600;
+        background-image: url("instagram.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        z-index: 3;
+        margin-top: 5vh;
+        opacity: 0;
+      }
+
+      .silver-surfer-image.start-floating {
+        animation: floatAnimation 6s ease-in-out infinite;
+      }
+
+      .silver-surfer-image::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 8vh;
+        z-index: 4;
+      }
+
+      .about-section,
+      .stats-section,
+      .gallery-section,
+      .community-section,
+      .video-section,
+      .fade-section {
+        background-color: transparent;
+      }
+
+      /* About Section */
+      .about-section {
+        min-height: 70vh;
+        padding: 5vh 5vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-shadow: 0 0 2.5vw rgba(100, 100, 100, 0.5),
+          0 0 4vw rgba(255, 255, 255, 0.5);
+      }
+
+      .enter-btn {
+        background: linear-gradient(
+          45deg,
+          #0e0f0f,
+          #333333
+        ); /* Bright blue gradient */
+        color: #e1dcdc;
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(1.2rem, 1.8vw, 2rem);
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.2vw;
+        padding: 1.5vh 3.5vw;
+        border: none;
+        border-radius: 5vw;
+        cursor: pointer;
+        margin-bottom: 4vh; /* Space between button and title */
+        box-shadow: 0 0 2vw rgba(229, 229, 230, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      .enter-btn:hover {
+        box-shadow: 0 0 2vw rgba(229, 229, 230, 0.6);
+      }
+
+      .community-section a {
+        text-decoration: none;
+      }
+
+      .about-title {
+        font-size: clamp(3rem, 6vw, 7.5rem);
+        margin-bottom: 5vh;
+        background: linear-gradient(45deg, #ffffff, #fff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+      }
+
+      .copy-box {
+        background: rgba(192, 192, 192, 0.1);
+        border: 2px solid #c0c0c0;
+        padding: 3vh 3vw;
+        border-radius: 1.5vw;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        max-width: 60vw;
+        text-align: center;
+        font-size: clamp(1.5rem, 1.8vw, 1.8rem);
+        letter-spacing: 0.2vw;
+        word-wrap: break-word;
+      }
+
+      .copy-box:hover {
+        background: rgba(192, 192, 192, 0.2);
+        box-shadow: 0 0 3vw rgba(192, 192, 192, 0.3);
+      }
+
+      .escape-velocity-text {
+        text-align: center;
+        padding: 2vh 5vw 8vh 5vw;
+        font-size: clamp(2.5rem, 3.5vw, 3.5rem);
+        color: #fbfbfb;
+        font-weight: lighter;
+        text-shadow: 0 0 15px rgba(280, 280, 280, 0.8);
+      }
+
+      /* Stats Section */
+      .stats-section {
+        padding: 10vh 2vw;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5vh;
+        align-items: center;
+        font-family: "Share Tech", sans-serif;
+      }
+
+      .stats-title {
+        font-size: clamp(2.25rem, 3.75vw, 3.75rem);
+        font-weight: 400;
+        color: #fdfdfd;
+        margin-bottom: 4vh;
+        text-shadow: 0 0 1vw rgba(255, 255, 255, 0.5);
+      }
+
+      .stat-bar {
+        width: 100%;
+        max-width: 80vw;
+        display: flex;
+        align-items: center;
+        gap: 1.5vw;
+      }
+
+      .label-left,
+      .label-right {
+        color: #d1d1d1;
+        font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+        white-space: nowrap;
+      }
+      .label-left {
+        width: 10vw;
+        text-align: left;
+      }
+      .label-right {
+        width: 10vw;
+        text-align: right;
+      }
+
+      .progress-container {
+        flex-grow: 1;
+        height: 0.6vh;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 0.3vh;
+        position: relative;
+      }
+
+      .progress-bar {
+        height: 100%;
+        border-radius: 0.3vh;
+        position: relative;
+        transition: width 1.5s ease-out;
+      }
+
+      .progress-bar::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(50%, -50%);
+        width: 1.8vh;
+        height: 1.8vh;
+        border-radius: 50%;
+        box-shadow: 0 0 0.8vh 0.3vh #fff, 0 0 1.2vh 0.5vh #00bfff;
+      }
+
+      .speed-bar {
+        width: 100%;
+        background: linear-gradient(to right, #00bfff, #ffffff 95%);
+        box-shadow: 0 0 0.6vh #00bfff, 0 0 1.2vh #00bfff;
+      }
+      .speed-bar::after {
+        background: #fff;
+        box-shadow: 0 0 0.8vh 0.3vh #fff, 0 0 1.2vh 0.5vh #00bfff;
+      }
+
+      .price-bar {
+        background: linear-gradient(to right, #00bfff, #87cefa);
+      }
+      .price-bar::after {
+        background: #00bfff;
+        box-shadow: 0 0 0.8vh 0.3vh #fff, 0 0 1.2vh 0.5vh #00bfff;
+      }
+
+      .completion-info {
+        margin-top: 2vh;
+        font-size: clamp(1.35rem, 1.5vw, 1.5rem);
+        color: #ccc;
+      }
+
+      .completion-factor {
+        margin-top: 1vh;
+        font-size: clamp(1.35rem, 1.5vw, 1.5rem);
+        color: #79fb79; /* Green color */
+        text-shadow: 0 0 5px #79fb79, 0 0 10px #79fb79; /* Glow effect */
+      }
+
+      /* Community Section */
+      .community-section {
+        padding: 10vh 5vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4vh;
+      }
+
+      .community-text {
+        font-size: clamp(2.5rem, 3.5vw, 3.5rem);
+        color: #fbfbfb;
+        font-weight: lighter;
+        text-shadow: 0 0 15px rgba(280, 280, 280, 0.8);
+        text-align: center;
+      }
+
+      /* Gallery Section */
+      .gallery-section {
+        padding: 10vh 0;
+        overflow: hidden;
+      }
+
+      .gallery-title {
+        text-align: center;
+        font-size: clamp(3rem, 5.25vw, 5.25rem);
+        margin-bottom: 5vh;
+        background: linear-gradient(45deg, #c0c0c0, #fff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .gallery-container {
+        display: flex;
+        gap: 2vw;
+        animation: scroll 30s linear infinite;
+      }
+
+      @keyframes scroll {
+        0% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      .gallery-item {
+        flex-shrink: 0;
+        width: 20vw;
+        min-width: 250px;
+        height: 20vw;
+        min-height: 250px;
+        border-radius: 1.5vw;
+        border: 2px solid #555;
+        overflow: hidden;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Video Section */
+      .video-section {
+        width: 100%; /* Make the section full width */
+        padding: 10vh 0; /* Add some vertical padding for spacing */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .video-container {
+        width: 100vw; /* Make the container span the full viewport width */
+        max-width: 100%; /* Ensure it doesn't exceed the parent section */
+        border-top: 2px solid #555; /* Optional: adds a border */
+        border-bottom: 2px solid #555; /* Optional: adds a border */
+        box-shadow: 0 0 3vw rgba(192, 192, 192, 0.2);
+      }
+
+      .video-container video {
+        width: 100%; /* This is the key: makes the video fit the container's width */
+        height: auto; /* Lets the height adjust automatically to maintain aspect ratio */
+        display: block;
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+      }
+
+      .footer-icon {
+        width: 100px;
+        height: 100px;
+        transition: opacity 0.3s ease;
+      }
+
+      .footer-icon:hover {
+        opacity: 0.7;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .navbar {
+          padding: 0 5vw;
+          flex-wrap: wrap;
+          height: auto;
+          min-height: 70px;
+          justify-content: space-between;
+        }
+
+        .nav-center {
+          display: none;
+        }
+
+        .nav-left,
+        .nav-right {
+          gap: 3vw;
+        }
+
+        .lightspeed-text {
+          top: 25%;
+        }
+
+        .silver-surfer-image {
+          width: 60vw; /* Make image larger on mobile */
+        }
+      }
+
+      /* --- NEW: PURE CSS SCROLL-BASED ANIMATION --- */
+      .autoShow {
+        animation: text-appear both;
+        animation-timeline: view();
+        animation-range: entry 20% cover 100vh;
+      }
+
+      @keyframes text-appear {
+        from {
+          opacity: 0;
+          transform: translateY(100px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* --- INTRO ANIMATION STYLES --- */
+
+      /* Keyframes for the lightspeed text effect */
+      @keyframes lightspeedEffect {
+        0% {
+          opacity: 0;
+          transform: translateX(-150px);
+          text-shadow: 0 0 35px rgba(255, 255, 255, 0.8),
+            -20px 0 35px rgba(0, 255, 255, 0.6);
+        }
+        70% {
+          opacity: 1;
+          text-shadow: 0 0 25px rgba(255, 255, 255, 0.9),
+            0 0 15px rgba(0, 255, 255, 0.8);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+          text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+        }
+      }
+
+      /* Keyframes for image animation from the bottom */
+      @keyframes flyInFromBottom {
+        from {
+          opacity: 0;
+          transform: translateY(100vh);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Prepare characters for animation */
+      .lightspeed-text .char {
+        display: inline-block;
+        opacity: 0;
+      }
+
+      /* Apply the new animation to the text */
+      .lightspeed-text.animate .char {
+        animation: lightspeedEffect 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+          forwards;
+      }
+
+      /* Apply animation to the image */
+      .silver-surfer-image.animate {
+        animation: flyInFromBottom 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+          forwards;
+      }
+
+      /* Keyframes for the continuous floating effect */
+      @keyframes floatAnimation {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-1vh) rotate(0.5deg);
+        }
+        100% {
+          transform: translateY(0) rotate(-0.5deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-left">
+        <button class="nav-btn" onclick="scrollToSection('about')">
+          About
+        </button>
+        <button class="nav-btn" onclick="scrollToSection('gallery')">
+          Gallery
+        </button>
+        <a
+          href="https://x.com/i/communities/1951459896073113974"
+          target="_blank"
+          ><button class="nav-btn">Join</button></a
+        >
+      </div>
+
+      <div class="nav-center">299,792,458 m/s</div>
+
+      <div class="nav-right">
+        <a
+          href="https://dexscreener.com/solana/7dvf9uypljimxe9qmjkmawuhvysw7ynjczx6ymanhsah"
+          target="_blank"
+          ><button class="nav-btn">Chart</button></a
+        >
+        <a
+          href="https://jup.ag/swap?sell=So11111111111111111111111111111111111111112&buy=2dMHTBnkSPRNqasqwpPfK4wwPxNdgmb1LhrbJ8vGjups"
+          target="_blank"
+          ><button class="nav-btn buy-btn">Buy</button></a
+        >
+      </div>
+    </nav>
+
+    <section class="hero-section" id="hero">
+      <div class="hero-content">
+        <div class="lightspeed-text">lightspeed</div>
+        <div class="silver-surfer-image"></div>
+      </div>
+    </section>
+
+    <div class="fade-section"></div>
+
+    <section class="about-section" id="about">
+      <button class="enter-btn autoShow" onclick="scrollToSection('community')">
+        Enter Now
+      </button>
+      <h2 class="about-title autoShow">Enter lightspeed: A Cultural Coin</h2>
+      <div class="copy-box autoShow" onclick="copyToClipboard()">
+        2dMHTBnkSPRNqasqwpPfK4wwPxNdgmb1LhrbJ8vGjups
+      </div>
+    </section>
+
+    <div class="escape-velocity-text autoShow">
+      to reach escape velocity, you must achieve the speed of light...
+    </div>
+
+    <section class="stats-section" id="stats">
+      <h2 class="stats-title autoShow">Lightspeed Progress to Completion</h2>
+
+      <div class="stat-bar autoShow">
+        <span class="label-left">Lightspeed</span>
+        <div class="progress-container">
+          <div class="progress-bar speed-bar"></div>
+        </div>
+        <span class="label-right">299.8m m/s</span>
+      </div>
+
+      <div class="stat-bar autoShow">
+        <span class="label-left">$Lightspeed</span>
+        <div class="progress-container">
+          <div class="progress-bar price-bar" id="priceBar"></div>
+        </div>
+        <span class="label-right" id="priceValue">$0.00m</span>
+      </div>
+
+      <div class="completion-info autoShow">
+        <span id="percentageText">0.00% to lightspeed</span>
+      </div>
+
+      <div class="completion-factor autoShow">
+        <span id="completionFactorText"></span>
+      </div>
+    </section>
+
+    <section class="community-section autoShow" id="community">
+      <div class="community-text">Join the community, to reach lightspeed</div>
+      <a href="https://x.com/i/communities/1951459896073113974" target="_blank">
+        <button class="enter-btn">Join Now</button>
+      </a>
+    </section>
+
+    <div class="footer autoShow">
+      <a href="https://x.com/EnterLightspeed" target="_blank">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/b/b7/X_logo.jpg"
+          alt="Twitter Icon"
+          class="footer-icon"
+        />
+      </a>
+    </div>
+
+    <section class="gallery-section autoShow" id="gallery">
+      <h3 class="gallery-title autoShow">Community Gallery</h3>
+      <div class="gallery-container"></div>
+    </section>
+
+    <section class="video-section autoShow" id="video">
+      <div class="video-container">
+        <video autoplay muted loop playsinline>
+          <source src="vid.m4v" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </section>
+
+    <div class="escape-velocity-text">give me lightspeed</div>
+
+    <script>
+      // Smooth scrolling to sections
+      function scrollToSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+
+      // Copy text to clipboard
+      function copyToClipboard() {
+        const text = "2dMHTBnkSPRNqasqwpPfK4wwPxNdgmb1LhrbJ8vGjups";
+        navigator.clipboard.writeText(text).then(() => {
+          const box = document.querySelector(".copy-box");
+          const originalText = box.innerHTML;
+          box.innerHTML = "Copied!";
+          box.style.background = "rgba(192, 192, 192, 0.3)";
+
+          setTimeout(() => {
+            box.innerHTML = originalText;
+            box.style.background = "rgba(192, 192, 192, 0.1)";
+          }, 1000);
+        });
+      }
+
+      // --- START: DYNAMIC GALLERY LOGIC ---
+      function populateGallery() {
+        const galleryContainer = document.querySelector(".gallery-container");
+        const imageCount = 10; // Total number of images you have
+        const imagePath = "images/"; // The folder where your images are stored
+
+        const fragment = document.createDocumentFragment();
+
+        for (let i = 1; i <= imageCount; i++) {
+          const galleryItem = document.createElement("div");
+          galleryItem.className = "gallery-item";
+
+          const img = document.createElement("img");
+          img.src = `${imagePath}${encodeURIComponent(`img (${i})`)}.jpg`;
+          img.alt = `Gallery image ${i}`;
+
+          galleryItem.appendChild(img);
+          fragment.appendChild(galleryItem);
+        }
+
+        galleryContainer.appendChild(fragment.cloneNode(true));
+        galleryContainer.appendChild(fragment.cloneNode(true));
+      }
+      // --- END: DYNAMIC GALLERY LOGIC ---
+
+      // --- START: GECKOTERMINAL API LOGIC ---
+      async function updateStats() {
+        const POOL_ADDRESS = "7DvF9UypLjiMXE9QmjkmaWUhVYsW7YnJCZX6YmANhsah";
+        const API_URL = `https://api.geckoterminal.com/api/v2/networks/solana/pools/${POOL_ADDRESS}`;
+        const lightspeedTarget = 299792.458;
+
+        try {
+          const response = await fetch(API_URL);
+          if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
+
+          const jsonResponse = await response.json();
+          const data = jsonResponse.data.attributes;
+
+          const priceNumber = parseFloat(data.base_token_price_usd) * 1000;
+
+          if (!isNaN(priceNumber)) {
+            const formattedPrice = priceNumber.toFixed(2) + "m";
+            const truePercentage = (priceNumber / lightspeedTarget) * 100;
+            const displayWidth = Math.min(truePercentage, 100);
+            const displayPercentage = truePercentage * 1000;
+
+            document.getElementById(
+              "priceValue"
+            ).textContent = `$${formattedPrice}`;
+            document.getElementById(
+              "priceBar"
+            ).style.width = `${displayWidth}%`;
+            document.getElementById(
+              "percentageText"
+            ).textContent = `${displayPercentage.toFixed(2)}% to lightspeed`;
+
+            if (priceNumber > 0) {
+              const completionFactor = lightspeedTarget / priceNumber / 1000;
+              document.getElementById(
+                "completionFactorText"
+              ).textContent = `${completionFactor.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}x to reach completion`;
+            } else {
+              document.getElementById(
+                "completionFactorText"
+              ).textContent = `Calculating...`;
+            }
+          }
+        } catch (error) {
+          console.error("Failed to fetch stats from GeckoTerminal:", error);
+          document.getElementById("priceValue").textContent = `Error`;
+          document.getElementById("priceBar").style.width = `0%`;
+          document.getElementById(
+            "percentageText"
+          ).textContent = `Could not fetch price`;
+          document.getElementById(
+            "completionFactorText"
+          ).textContent = `Could not fetch data`;
+        }
+      }
+      // --- END: GECKOTERMINAL API LOGIC ---
+
+      // Navigation functions
+      function openChart() {
+        window.open(
+          "https://www.geckoterminal.com/solana/pools/7DvF9UypLjiMXE9QmjkmaWUhVYsW7YnJCZX6YmANhsah",
+          "_blank"
+        );
+      }
+
+      function buyToken() {
+        window.open(
+          "https://jup.ag/swap/SOL-2dMHTBnkSPRNqasqwpPfK4wwPxNdgmb1LhrbJ8vGjups",
+          "_blank"
+        );
+      }
+
+      // Initialize stats update
+      updateStats();
+      setInterval(updateStats, 10000);
+
+      // Scroll animations
+      window.addEventListener("scroll", () => {
+        const scrolled = window.pageYOffset;
+        const heroSection = document.querySelector(".hero-section");
+        const lightspeedText = document.querySelector(".lightspeed-text");
+        const viewportHeight = window.innerHeight;
+        const opacity = Math.max(0, 1 - scrolled / viewportHeight);
+        if (heroSection) {
+          heroSection.style.opacity = opacity;
+        }
+        if (lightspeedText) {
+          lightspeedText.style.transform = `translate(-50%, -50%) translateY(${
+            scrolled * 0.5
+          }px)`;
+        }
+      });
+
+      /* --- INTRO ANIMATION SCRIPT --- */
+      window.addEventListener("DOMContentLoaded", () => {
+        const lightspeedText = document.querySelector(".lightspeed-text");
+        const silverSurfer = document.querySelector(".silver-surfer-image");
+
+        const text = lightspeedText.textContent;
+        lightspeedText.innerHTML = "";
+        text.split("").forEach((char, index) => {
+          const span = document.createElement("span");
+          span.className = "char";
+          span.textContent = char;
+          span.style.animationDelay = `${index * 0.04}s`;
+          lightspeedText.appendChild(span);
+        });
+
+        lightspeedText.classList.add("animate");
+        silverSurfer.classList.add("animate");
+
+        silverSurfer.addEventListener("animationend", (event) => {
+          if (event.animationName === "flyInFromBottom") {
+            silverSurfer.style.opacity = 1;
+            silverSurfer.classList.remove("animate");
+            silverSurfer.classList.add("start-floating");
+          }
+        });
+
+        populateGallery();
+      });
+    </script>
+  </body>
+</html>
